@@ -1,0 +1,58 @@
+{
+  "name": "garage-stock-manager",
+  "version": "1.0.0",
+  "description": "ระบบจัดการอะไหล่และ Stock สำหรับการซ่อมรถ",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:vite\" \"npm run dev:electron\"",
+    "dev:vite": "vite",
+    "dev:electron": "wait-on http://localhost:5173 && cross-env NODE_ENV=development electron .",
+    "build": "vite build",
+    "build:win": "npm run build && npm run pack:win",
+    "pack:win": "electron-builder --win dir && powershell -Command \"Compress-Archive -Path 'build/win-unpacked/*' -DestinationPath 'build/Garage-Stock-Manager.zip' -Force\"",
+    "build:mac": "npm run build && electron-builder --mac",
+    "build:linux": "npm run build && electron-builder --linux"
+  },
+  "keywords": [
+    "garage",
+    "stock",
+    "parts",
+    "inventory"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8",
+    "vite": "^6.4.3",
+    "wait-on": "^8.0.5"
+  },
+  "build": {
+    "appId": "com.garage.stockmanager",
+    "productName": "Garage Stock Manager",
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "build"
+    },
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
+  }
+}
